@@ -21,7 +21,7 @@ class PostService {
     );
 
     if (response.statusCode == 201) {
-      return json.decode(response.body); // Trả về kết quả bài viết đã được tạo
+      return json.decode(response.body);
     } else {
       throw Exception('Failed to create post');
     }
@@ -110,29 +110,43 @@ class PostService {
   //   }
   // }
 
-  Future<void> likePost(String postId, String userId, String token) async {
+  Future<Map<String, dynamic>> likePost(String postId, String userId, String token) async {
     final url = Uri.parse('$baseUrl/posts/$postId/like');
-    print('Request URL: $url'); // Log URL được sử dụng
     final response = await http.post(
       url,
-      headers: {'Authorization': 'Bearer $token'},
+      headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
       body: json.encode({'userId': userId}),
     );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to like the post');
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      return responseData; // Trả về dữ liệu bài viết sau khi like
+    } else {
+      throw Exception('Failed to like the post. Server response: ${response.body}');
     }
   }
 
-  Future<void> addComment(String postId, String userId, String content, String token) async {
+
+
+  Future<Map<String, dynamic>> addComment(String postId, String userId, String content, String token) async {
     final url = Uri.parse('$baseUrl/posts/$postId/comment');
     final response = await http.post(
       url,
-      headers: {'Authorization': 'Bearer $token'},
-      body: json.encode({'userId': userId, 'content': content}),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'userId': userId,
+        'content': content,
+      }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to add a comment');
+    if (response.statusCode == 200) {
+      return json.decode(response.body); // Trả về dữ liệu bình luận mới
+    } else {
+      throw Exception('Failed to add comment. Server response: ${response.body}');
     }
   }
+
 }

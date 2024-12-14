@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login', // Màn hình khởi đầu là màn hình đăng nhập
       getPages: [
         GetPage(name: '/login', page: () => Loginscreen()),
-        GetPage(name: '/home', page: () => Homescreen()), // Đảm bảo khai báo các route ở đây
+        GetPage(name: '/home', page: () => HomeScreen()), // Đảm bảo khai báo các route ở đây
         GetPage(name: '/signup', page: () => Signupscreen()),
         GetPage(name: '/newpost', page: () => PostListScreen()),
         GetPage(name: '/addpost', page: () => AddPostScreen()),

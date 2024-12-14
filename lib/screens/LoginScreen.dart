@@ -36,7 +36,7 @@ class _LoginscreenState extends State<Loginscreen> {
       // Lưu token và thông tin người dùng nếu đăng nhập thành công
       String token = result['token'];
       Map<String, dynamic> user = result['user'];
-      Get.offAllNamed('/newpost', arguments: {'token': token, 'user': user});
+      Get.offAllNamed('/home', arguments: {'token': token, 'user': user});
     } else {
       setState(() {
         _errorMessage = result['message'];
